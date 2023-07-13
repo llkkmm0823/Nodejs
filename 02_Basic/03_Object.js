@@ -51,6 +51,7 @@ console.log(person.name);
 person.eat('스파게티');
 
 
+
 // 멤버 함수가 멤버변수로의 접근
 // - this 키워드 : 자바스크립트는 멤버변수에 접근을 위해서 반드시 this 키워드를 써야 함
 var person = {
@@ -126,7 +127,7 @@ console.log(write);
 
 // 빈 객체를 생성
 var student = {};
-// 객체 생성이후 동적으로 속성(멤버변수)를 추가 할 수 있음
+// 자바스크립트 객체의 장점 :  객체 생성이후 동적으로 속성(멤버변수)를 추가 할 수 있음
 student.이름 = '홍길동';
 student.취미 = '악기';
 student.특기 = '프로그래밍';

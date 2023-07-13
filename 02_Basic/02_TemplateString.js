@@ -23,7 +23,7 @@ const result2 = 3;
 const string3 = `${num3} 더하기 ${num4} 는 '${result2}'`;
 console.log(string3);
 
-// 기존의  EL 문법처럼 중괄호안에서는 각 변수들간의 연산도 가능합니다
+// 기존의  EL 문법처럼 중괄호안에서는 각 변수들간의 연산도 가능
 const num5 = 2000;
 const num6 = 3;
 const text = `${num5} 원짜리 모자를 ${num6}개 구입하여, ${num5*num6}원을 지출하였습니다`;
