@@ -17,7 +17,7 @@ console.log('+ 기호로 이어붙인 결과 : ' , string1);
 let string2 = `${num1} 더하기 ${num2} 는 '${result}'`;
 console.log('Template String구성 결과 : ' , string2);
 
-// 기존의  EL 문법처럼 중괄호안에서는 각 변수들간의 연산도 가능합니다
+// 기존의  EL 문법처럼 중괄호안에서는 각 변수들간의 연산도 가능합니다.
 const num5 = 2000;
 const num6 = 3;
 const text = `${num5} 원짜리 모자를 ${num6}개 구입하여, ${num5*num6}원을 지출하였습니다`;
