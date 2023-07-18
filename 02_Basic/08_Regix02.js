@@ -9,8 +9,8 @@ let a = "Hello World";
 let result = a.match(/Hello|Crow/g);
 console.log(result);
 
-a = "Welcome crow";
-result = a.match(/Hello|crow/g);
+a = "Welcome Crow";
+result = a.match(/Hello|Crow/g);
 console.log(result);
 
 a = "Hello World Welcome Crow";

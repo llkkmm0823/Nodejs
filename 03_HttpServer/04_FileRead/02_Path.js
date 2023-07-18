@@ -1,5 +1,6 @@
 // 02_Path.js
- const path = require('path');
+ const { dir } = require('console');
+const path = require('path');
 // node.js와 자바 스크립트의 버전 업데이트에 따라 path 모듈은 별도의 require 없이 사용이 가능하게 됨.
 
 // path가 아니어도 사용 가능한 경로와 파일관련 상수
@@ -30,3 +31,40 @@ console.log('path.extname():', path.extname(string));
 console.log('path.basename():', path.basename(string));
 // 파일의 이름만 보고 싶다면, 함수의 두 번째 인자로 확장자('.js')를 넣어줌
 console.log('path.basename(extname 제외):', path.basename(string, path.extname(string)));
+
+console.log();
+//========================================================================================================
+// 파일의 경로를 root,base,ext,name으로 분리함.
+console.log('path.parse() : ' , path.parse(filename));
+// 분리된 결과를  root,base,ext,name이라는 필드로 객체를 구성함.
+
+// 파일의 이름, 경로, 확장자 등을 제공하고 filename에 저장된 정보처럼 조합함.
+let filename2 = path.format({
+    dir:'D:\\JAVA01\\Nodejs\\03_HttpServer\\04_FileRead'  ,
+    name:'path-fornatex',
+    ext: '.js',
+});
+console.log(filename2);
+
+// 파일 경로를 사용하던 중 \ 나 / 를 실수로 여러 번 쓴 걸 수정함
+console.log('path.normalize():', path.normalize('D://heejonnk/node_js/javascript_ex1.js'));
+console.log();
+
+// 파일의 경로가 절대 경로인지 상대 경로인지 true false로 표시함.
+// 절대경로 & 상대경로 정의 정리: https://hellowwworld.tistory.com/60
+console.log('path.isAbsolute(C:\\):', path.isAbsolute('C:\\'));
+console.log('path.isAbsolute(./home):', path.isAbsolute('./home'));
+
+// 파일의 입력인수로 넣어준 경로와 경로사이의 이동경로?를 표시함
+console.log(path.relative('D\\JAVA01\\nodejs', 'D:\\'));
+
+// 처음 경로부터 이 후 나오는 경로로 직접 이동한 폴더를 표시함.
+console.log(__dirname);
+console.log('path.join():', path.join(__dirname, '..', '/heejoonk', '.', '/node_js'));
+
+
+//---------------------------------------------------------------------------------------------------
+// resolve와 join은 비슷하지만 '/' 표시를 절대경로냐, 상대경로로 보느냐가 다름.
+// resolve는 절대경로로 보기 때문에 최종결과가 D:\node_js가 됨.
+// '/heejonnk' 에 의해서 D:\heejoonk로 되었다가 '/node_js' 에 의해서 다시 D:\node_js로 설정됨.
+console.log('path.resolve():', path.resolve(__dirname, '..', '/heejoonk', '.', '/node_js'));
