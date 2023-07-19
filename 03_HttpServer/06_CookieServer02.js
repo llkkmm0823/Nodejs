@@ -12,20 +12,28 @@ const { parse } = require('path');
 // let name='홍길동';
 // let login = false;
 
-const parseCookies = (cookie='')=>
-cookie  .split(';') // 두 개이상의 쿠키가 있을 수 있으므로 ';'로 구분하여 배열로 저장
-        .map( (v)=>v.split('='))   // ';'으로 분리된 쿠키들은 = 기준으로 분리해서 저장
-        .reduce( (acc, [k,v])=>{
-            acc[k.trim()] = decodeURIComponent(v);
-            return acc;
-        },{ }); //인코딩으로 저장한 쿠키값을 다시 디코딩해서 저장
-
+const parseCookies = (cookie='')=>{
+    let c = cookie.split(';'); // 두 개이상의 쿠키가 있을 수 있으므로 ';'로 구분하여 배열로 저장
+    console.log("split ; " , c); // ;으로 분리한 결과
+    let d = c.map( (v)=>{
+        let a = v.split('=');   // ';'으로 분리된 쿠키들은 = 기준으로 분리해서 저장
+        return a;
+    }); //인코딩으로 저장한 쿠키값을 다시 디코딩해서 저장
+    console.log("split = " , d); // =로 분리한 결과
+    let e = d.reduce( (acc, [k,v])=>{
+        acc[k.trim()] = decodeURIComponent(v);
+        return acc;
+    },{ } );
+    console.log(e); // 분리된 결과들은 키 : 값 형태로 객체로 변환
+    return e;
+}
 http.createServer( async (req, res)=>{
     //쿠키의 내용은 요청(request)이 있을 때마다 매번 헤더에 동봉되어져 서버로 옴
     //console.log(req.headers.cookie);
-    console.log("1.",req.headers.cookie);
+    console.log("1.",req.headers.cookie); // mycookie=test; name: 'scott'
     const cookies = parseCookies(req.headers.cookie);
-    console.log("2.",cookies);
+    //console.log("2.",cookies);
+
     if( req.url.startsWith('/login') ){
         // 로그인하려는 유저의 전송된 이름을 쿠키에 저장하고  '/' 로 이동
         //console.log(req.url); // /login?name=hong
@@ -49,6 +57,7 @@ http.createServer( async (req, res)=>{
             res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
             res.end(`${cookies.name}님 안녕하세요`); 
     }else{
+        res.writeHead(200, { 'Set-Cookie': 'mycookie=test' });
             try{
                 const data = await fs.readFile('./06_Login.html');
                 res.end(data);
