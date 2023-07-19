@@ -13,8 +13,11 @@ const { parse } = require('path');
 // let login = false;
 
 const parseCookies = (cookie='')=>{
-    let c = cookie.split(';'); // 두 개이상의 쿠키가 있을 수 있으므로 ';'로 구분하여 배열로 저장
-    console.log("split ; " , c); // ;으로 분리한 결과
+    let c = cookie.split(';'); 
+    // 두 개이상의 쿠키가 있을 수 있으므로 ';'로 구분하여 배열로 저장
+    //전달된 쿠기 "mycookie=test , name=scott "
+    console.log("split ; " , c); 
+    // ;으로 분리한 결과    [ 'mycookie=test' , 'name=scott']
     let d = c.map( (v)=>{
         let a = v.split('=');   // ';'으로 분리된 쿠키들은 = 기준으로 분리해서 저장
         return a;
