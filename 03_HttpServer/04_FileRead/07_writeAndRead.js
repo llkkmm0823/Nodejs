@@ -1,17 +1,17 @@
-// 07_writeAndRead.js
+// 03_WriteAndRead.js
 
-// writeMe2.txt에 '안녕하시므니까. \n반갑스므니다\n또 오시므니다\n내일뵙겠스믄다' 를 쓰고 바로 읽어서 콘솔창에 출력하시오.
+// wirteem2.txt  에  '안녕하세요. \n방갑습니다\n또오세요\n내일뵙겠습니다' 를 쓰고  바로 읽어서 콘솔창에 출력하세요
 const fs = require('fs');
-const string = '안녕하시므니까. \n반갑스므니다\n또 오시므니다\n내일뵙겠스므니다.';
-fs.writeFile('./writeMe2.txt', string , (에러) =>{
-     if(에러) {
-        console.error(에러);
-     }
+const string = '안녕하세요. \n방갑습니다\n또오세요\n내일뵙겠습니다.';
+fs.writeFile('./writeme2.txt', string , (err) => {
+    if (err) {
+        console.error(err);
+    }
 });
-fs.readFile('./writeMe2.txt', (에러,data)=>{
-    if(에러) {
-        console.error(에러);
-     }else{
+fs.readFile('./writeme2.txt', (err, data)=>{ 
+    if(err){
+        console.error(err);
+    }else{
         console.log(data.toString());
-     }
-});
+    }
+ } );
