@@ -60,6 +60,7 @@ http.createServer(
                 }
             }else if(req.method == 'DELETE' ){   // delete 
                 if( req.url.startsWith('/user/') ){
+                    // /user/41560148569
                     let urlarr = req.url.split('/'); // ''    'user'    '41560148569'
                     const key = urlarr[2];
                     delete users[key];
