@@ -2,9 +2,9 @@
   "name": "server03",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "App.js",
   "scripts": {
-    "start": "nodemon app",
+    "start":"nodemon App",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

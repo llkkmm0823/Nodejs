@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="http://unpkg.com/axios@0.25.0/dist/axios.min.js"></script>
+</head>
+<body>
+    <form method="post" id="form">
+        <input type="text" name="id"><br/>
+        <input type="password" name="pw"><br/>
+        <input type="submit" value="로그인"><br/>
+        <div id="message"></div>
+    </form>
+    <script type="text/javascript">
+        document.getElementById('form').addEventListener('submit', async (e) => { // await 짝꿍 async
+            e.preventDefault(); //submit 동작 정지 _ 화면 전환을 막기위해
+            const id=e.target.id.value;
+            const pw=e.target.pw.value;//입력한 내용 변수 저장
+            if(id==''){
+                return alert('아이디를 입력하세요');
+            }elseif(pw==''){
+                return alert('비밀번호를 입력하세요');
+            }
+            try{
+           const result= await axios.post('login', {id,pw}); 
+           // axios는 비동기식 실행이기때문에 실행결과가 돌아옴. await를 써서 동기식으로 실행시킴
+        }catch(err){ }
+        
+        });
+    </script>
+    
+</body>
+</html>
