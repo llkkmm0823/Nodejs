@@ -21,7 +21,7 @@ app.get('/', (req,res)=>{
 app.post('/login', (req,res)=>{
     const id = req.body.id;
     const pw = req.body.pw;
-
+    
     if( id=='scott' && pw=='tiger'){ // 정상 로그인
           const expires = new Date();
           expires.setMinutes(expires.getMinutes() + 1);
