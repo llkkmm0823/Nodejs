@@ -45,9 +45,7 @@
                 document.getElementById('price').innerHTML = result.price;
                 console.log(res.data.filename);
                 document.getElementById('img').innerHTML = '<img src="' + res.data.filename + '" width=400>';
-            }catch(err){
-                console.error(err);
-            }
+            }catch(e){}
             e.target.image.value='';
             e.target.title.value='';
             e.target.description.value='';
