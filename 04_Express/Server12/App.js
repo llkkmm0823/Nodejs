@@ -6,7 +6,7 @@ const app = express();
 app.set('port', process.env.PORT || 3000);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
+//안정적이지 않아 코드의 수정이 필요하다
 // nunjucks 사용환경 구성
 app.set('view engine', 'html');
 nunjucks.configure('views', {   express: app,   watch: true,   });
