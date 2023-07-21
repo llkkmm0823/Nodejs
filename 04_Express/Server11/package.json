@@ -1,16 +1,17 @@
 {
-  "name": "server09",
+  "name": "server11",
   "version": "1.0.0",
   "description": "",
   "main": "App.js",
   "scripts": {
-    "start":"nodemon App",
+    "start": "nodemon App",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "nunjucks": "^3.2.4"
   }
 }

@@ -4,37 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://unpkg.com/axios@0.25.0/dist/axios.min.js"></script>
+    <script  src="https://unpkg.com/axios@0.25.0/dist/axios.min.js"></script>
 </head>
 <body>
-     <form method="post" id="form">
-        <input type="text" name="id"><br/>
-        <input type="password" name="pw"><br/>
-        <input type="submit" value="로그인"><br/>
+    <form method="post" id="form">
+        <input type="text" name="id" ><br />
+        <input type="password" name="pw" ><br />
+        <input type="submit" value="로그인"><br />
         <div id="message"></div>
-     </form>
-     <script type="text/javascript">
-                document.getElementById('form').addEventListener('submit', async(e)=>{
-                    e.preventDefault(); // submit 동작정지
-                    const id=e.target.id.value;
-                    const pw=e.target.pw.value;
-                    if( id==''){
-                        return alert('아이디를 입력하세요');
-                    }else if( pw ==''){
-                        return alert('비밀번호를 입력하세요');
-                    }
-                    try{
-                        const result = await axios.post('/login',{id , pw});
-                        // const data = result.data;
-                        // if(data.msg =='ok')
-                        if( result.data.msg == 'ok'){
-                             location.href='/';
-                        }else{
-                            document.getElementById('message').innerHTML = result.data.msg;
-                        }
-                    }catch(err){                   }
-                    e.target.pw.value='';
-            });
-     </script>
+    </form>
+    <script type="text/javascript">
+        document.getElementById('form').addEventListener('submit', async (e)=>{
+            e.preventDefault(); // submit 동작 정지
+            const id=e.target.id.value;
+            const pw=e.target.pw.value;
+            if( id=='' ){
+                return alert('아이디를 입력하세요');
+            }else if( pw=='' ){
+                return alert('비밀번호를 입력하세요');
+            }
+            try{
+                const result = await axios.post('/login', { id, pw });
+                //const data = result.data;
+                // if( data.msg == 'ok')
+                if( result.data.msg == 'ok') {
+                    location.href='/';
+                }else{
+                    document.getElementById('message').innerHTML = result.data.msg;
+                }
+            }catch(err){   }
+            e.target.pw.value='';
+        });
+    </script>
 </body>
 </html>
