@@ -5,6 +5,8 @@ const app = express();
 app.set('port', process.env.PORT || 3000);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// nunjucks 사용환경 구성
 app.set('view engine', 'html');
 nunjucks.configure('views', {   express: app,   watch: true,   });
 
