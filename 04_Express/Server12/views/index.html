@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <!--사용자-->
+    <!--사용자 등록 폼-->
     <div>
         <form id="user-form">
             <fieldset>
@@ -19,17 +19,15 @@
             </fieldset>
         </form>
     </div><br>
+    <!--등록된 user 리스트-->
     <table id="user-list" border="1">
         <thead><tr><th>아이디</th><th>이름</th><th>나이</th><th>결혼여부</th></tr></thead>
         <tbody>
-            {% for user in users %}
-            <tr><td>{{user.id}}</td><td>{{user.name}}</td><td>{{user.age}}</td>
-                <td>{{ '기혼' if user.married else '미혼'}}</td></tr>
-            {% endfor %}
+            <tr><td>{{id}}</td><td>{{name}}</td><td>{{age}}</td><td>{{married}}</td></tr>
         </tbody>
     </table><br>
-    
-    <!--댓글-->
+
+    <!--댓글 등록 창-->
     <div>
         <form id="comment-form">
             <fieldset>
@@ -40,12 +38,12 @@
             </fieldset>
         </form>
     </div><br>
+    <!-- 댓글 리스트 테이블-->
     <table id="comment-list"  border="1">
         <thead><tr><th>아이디</th><th>작성자</th><th>댓글</th><th>수정</th><th>삭제</th></tr></thead>
         <tbody></tbody>
     </table>
 
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="/sequelize.js"></script>
+    <script src="sequelize.js"></script>
 </body>
 </html>

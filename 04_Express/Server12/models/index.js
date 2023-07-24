@@ -1,43 +1,24 @@
-'use strict';
-
-const fs = require('fs');
-const path = require('path');
 const Sequelize = require('sequelize');
-const process = require('process');
-const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
+// 현재위치에서 한단계 상위폴더로 가서 config 폴더에 있는 config.json 파일을 require
+// [env] :  필드키값이 'development' 인 항목을 require
+const config = require( __dirname + '/../config/config.json')[env];
+const User = require("./user");  // User 클래스 require
+const Comment = require("./comment"); // Comment 클래스 require
+
 const db = {};
+let sequelize = new Sequelize(config.database, config.username, config.password, config);
+db.sequelize = sequelize;  // 접속정보 저장된 객체
+db.Sequelize = Sequelize;  // sequelize 기능이 있는 객체
+// db = { sequelize:sequelize,  Sequelize:Sequelize };
+// db = { sequelize,  Sequelize };
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+db.User = User;   // db 테이블 객체에 삽입
+db.Comment = Comment; // db 테이블 객체에 삽입
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (
-      file.indexOf('.') !== 0 &&
-      file !== basename &&
-      file.slice(-3) === '.js' &&
-      file.indexOf('.test.js') === -1
-    );
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
-
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+User.init(sequelize);   // 테이블 생성 및 초기화함수 호출
+Comment.init(sequelize);
+User.associate(db);
+Comment.associate(db);
 
 module.exports = db;

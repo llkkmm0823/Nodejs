@@ -2,23 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
     <h1>Wellcome to {{title}} nunjucks</h1>
+    <!--EL 처럼 중괄호앞에 '$' 안붙이고, 중괄호를 두개 겹쳐서 전달내용을 표현할수 있습니다-->
 
     <br><hr>
+    <!-- nunjucks 의 HTML 파일 삽입문법 : JSP 비슷하게 생긴 문법을 사용합니다. -->
+
     <!-- 내부변수 -->
-    {% set node = 'Node - Js' %}
+    {% set node = 'Node-Js' %}
     {% set js = 'JavaScript' %}
     <h2> {{node}} 와 {{js}} </h2>
 
     <br><hr>
     <!-- 꺽쇠괄호 태그의 적용 유무(safe) -->
-    <h3>{{'<strong>이스케이프</strong>'}}</h3>
-    <h3>{{'<strong>이스케이프 하지 않음</strong>' | safe}}</h3>
+    <p>{{'<strong>이스케이프</strong>'}}</p>
+    <p>{{'<strong>이스케이프 하지 않음</strong>' | safe}}</p>
 
 
     <br><hr>
@@ -41,21 +43,21 @@
     <!-- 조건문 -->
     {% set isLogged = true %}
     {% if isLogged %}
-    <h3>로그인 되었습니다</h3>
+        <h3>로그인 되었습니다</h3>
     {% else %}
-    <h3>로그인이 필요합니다</h3>
+        <h3>로그인이 필요합니다</h3>
     {% endif %}
-
 
     {% set fruit = '' %}
     {% if fruit === 'apple' %}
-    <h3>사과입니다</h3>
+        <h3>사과입니다</h3>
     {% elif fruit === 'banana' %}
-    <h3>바나나입니다</h3>
+        <h3>바나나입니다</h3>
     {% elif fruit === 'orange' %}
-    <h3>오렌지입니다</h3>
+        <h3>오렌지입니다</h3>
     {% else %}
-    <h3>아무것도 아닙니다</h3>
+        <h3>아무것도 아닙니다</h3>
     {% endif %}
+
 </body>
 </html>
