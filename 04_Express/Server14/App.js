@@ -68,12 +68,12 @@ app.listen(app.get('port'),()=>{
 
 
 
-// const { sequelize } = require('./models');
+const { sequelize } = require('./models');
 
-// sequelize.sync({ force:false })
-// .then(()=>{ console.log('데이터베이스 연결성공');})
-// .catch((err)=>{ 
-//     console.error(err);
-// });
+sequelize.sync({ force:false })
+.then(()=>{ console.log('데이터베이스 연결성공');})
+.catch((err)=>{ 
+    console.error(err);
+});
 
 
