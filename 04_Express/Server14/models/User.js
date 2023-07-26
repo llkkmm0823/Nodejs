@@ -54,4 +54,3 @@ module.exports = class User extends Sequelize.Model{
 // 유저3(Followers) , 유저1(Followings)
 // 유저4(Followers) , 유저1(Followings)
 // 유저4(Followers) , 유저2(Followings)
-

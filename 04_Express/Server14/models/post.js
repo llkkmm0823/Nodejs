@@ -31,5 +31,9 @@ module.exports = class Post extends Sequelize.Model{
     static associate(db){
         db.Post.belongsTo(db.User);
         db.Post.belongsToMany( db.Hashtag, {through:'PostHashtag'});
+        //post 테이블과 hashtags 테이블의 N:N 관계를 위한 PostHashtag 테이블을 새롭게 생성 
+        //posts(1) : PostHashtag(N), PostHashtag(N):hashtags(1) 두 관계를 통틀어 사용하여  N:N관계를 설정
+        
+        
     }
 };
