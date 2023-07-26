@@ -1,4 +1,6 @@
-document.getElementById('join-form').addEventListener('submit', async (e)=>{
+// insertmember.js
+
+document.getElementById("join-form").addEventListener('submit', async (e)=>{
     e.preventDefault();
     const userid = e.target.userid.value;
     const pwd = e.target.pwd.value;
@@ -10,11 +12,8 @@ document.getElementById('join-form').addEventListener('submit', async (e)=>{
     if (!name) {  return alert('이름을 입력하세요');    }
     if (!phone) {  return alert('전화번호를 입력하세요');    }
     if (!email) {  return alert('이메일을 입력하세요');    }
-
     try{
-        await axios.post('/members/insertMember', {userid, pwd, name, phone, email});
+        await axios.post('/members/insertMember', {userid, pwd, name, phone, email} );
         location.href='/';
-    }catch(err){
-
-    }
+    }catch(err){ console.error(err);  }
 });

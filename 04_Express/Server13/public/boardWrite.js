@@ -1,4 +1,5 @@
-document.getElementById('write-form').addEventListener('submit', async (e) => {
+// boardWrite.js
+document.getElementById("write-form").addEventListener('submit', async(e)=>{
     e.preventDefault();
     const subject = e.target.subject.value;
     const writer = e.target.userid.value;
@@ -11,11 +12,13 @@ document.getElementById('write-form').addEventListener('submit', async (e) => {
     formData.append('subject', subject);
     formData.append('writer', writer);
     formData.append('text', text);
-    
-    try {
+
+    try{
         await axios.post('/boards/writeBoard', formData );
         location.href = '/boards';
-    } catch (err) {
+    }catch(err){    
         console.error(err);
     }
+
+
 });
