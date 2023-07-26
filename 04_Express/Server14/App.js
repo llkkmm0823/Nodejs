@@ -60,13 +60,6 @@ app.use((err, req, res, next) => {
     res.send('error');
     //res.render('error');
 });
-app.listen(app.get('port'),()=>{
-    console.log(app.get('port'), ' 포트에서 대기중'); 
-});
-
-
-
-
 
 const { sequelize } = require('./models');
 
@@ -75,5 +68,15 @@ sequelize.sync({ force:false })
 .catch((err)=>{ 
     console.error(err);
 });
+
+app.listen(app.get('port'),()=>{
+    console.log(app.get('port'), ' 포트에서 대기중'); 
+});
+
+
+
+
+
+
 
 
