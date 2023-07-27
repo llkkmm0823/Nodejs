@@ -85,4 +85,22 @@ router.get('/logout',(req, res) => {
     res.redirect('/'); 
 });
 
+
+router.get('/kakao',(req, res) => {
+// 스트레지를 통해 카카오에 한번 갔다가  콜백받아서 돌아오고
+});
+
+router.get('/kakao/callback', 
+passport.authenticate(
+        'kakao',
+    {   // 그다음은 요부분 실행
+        failureRedirect: '/',
+    }
+    ), 
+    (req, res) => {
+        res.redirect('/');
+    }
+);
+
+
 module.exports = router;
