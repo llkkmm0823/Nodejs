@@ -55,23 +55,22 @@ async function getBoard_list(page){
 
             tbody.appendChild(row);   // 완성된 행을  tbody에 삽입
         });
-
+        
         const pageArea = document.querySelector('#page');
-        pageArea.innerHTML = '' ;
-        if(paging.prev){ //prev 버튼
-            pageArea.innerHTML += `<a href="#" onClick="getBoard_list('${paging.beginPage-1}')">&nbsp;&nbsp;◀</a>`;
+        pageArea.innerHTML='';
+        if(paging.prev) {  // prev버튼
+            pageArea.innerHTML+=`<a href="#" onClick="getBoard_list('${paging.beginPage-1}')">&nbsp;&nbsp;◀ </a>`;
         }
-        for(let i =paging.beginPage; i<=paging.endPage; i++){
-            if(paging.page==i){
-                pageArea.innerHTML += `<span style="color:red;">&nbsp;${i}&nbsp;</span>`;
+        for( let i=paging.beginPage; i<=paging.endPage; i++){
+            if( paging.page == i){
+                pageArea.innerHTML += `<span style="color:red;">&nbsp;&nbsp;${i} </span>`;
             }else{
-                pageArea.innerHTML += `<a href="#" onClick="getBoard_list('${i}')">&nbsp; ${i}&nbsp;</a>`;
+                pageArea.innerHTML += `<a href="#" onClick="getBoard_list('${i}')">&nbsp;&nbsp;${i} </a>`;
             }
         }
-        if(paging.next){ //next 버튼
-            pageArea.innerHTML += `<a href="#" onClick="getBoard_list('${paging.endPage+1}')">&nbsp;&nbsp;▶</a>`
+        if(paging.next) {  // next 버튼
+            pageArea.innerHTML+=`<a href="#" onClick="getBoard_list('${paging.endPage+1}')">&nbsp;&nbsp;▶ </a>`
         }
-
     }catch(err){
         console.error(err);
     }

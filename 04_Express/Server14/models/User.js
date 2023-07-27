@@ -1,82 +1,51 @@
-const express = require('express');
-const { Post, User, Hashtag } = require('../models');
-// const { isLoggedIn, isNotLoggedIn } = require('./middleware');
+const { Sequelize } = require('sequelize');
 
-const router = express.Router();
-
-
-router.get('/', async (req,res,next)=>{
-    try{
-        // 포스트 검색
-        const posts = await Post.findAll({
-            include : {
-                model:User,
-                attributes:['id', 'nick'],
-            },
-            order:[[ 'createdAt' , 'DESC' ]],
-        });
-        res.render('main', 
-            { 
-                title:'Nodegram',   // 타이틀
-                user:req.user,      // 로그인유저의 객체
-                 // 로그인유저가 없으면 0, 있으면 인원수(length-레코드 갯수)
-                followerCount : req.user ? req.user.Followers.length : 0,   // 팔로워 인원수
-                followingCount : req.user ? req.user.Followings.length : 0,  // 팔로잉 인원수
-                followerIdList : req.user ? req.user.Followings.map(f => f.id) : [] ,
-                // 팔로워들의 아이디 리스트 : 배열
-                posts,              // 전체 포스팅들이 담긴 객체
+module.exports = class User extends Sequelize.Model{
+    static init( sequelize ){
+        return super.init(
+            {   // 자동증가 및 기본키 필드 'id' 자동 생성
+                email:{   // 일반 회원가입 사용자용 사용자식별 필드
+                    type:Sequelize.STRING(50),
+                    allowNull:true,
+                    unique:true,  //널값끼리는 고유값적용을 하지 않습니다
+                },
+                nick:{
+                    type:Sequelize.STRING(30),
+                    allowNull:false,
+                },
+                password:{
+                    type:Sequelize.STRING(200),
+                    allowNull:true,
+                },
+                provider:{
+                    type:Sequelize.STRING(20),
+                    allowNull:false,
+                    defaultValue:'local',
+                },
+                snsid:{
+                    type:Sequelize.STRING(30),
+                    allowNull:true,
+                },
+            },{
+                sequelize,
+                timestamps:true,
+                underscored:false,
+                modelName:'User',
+                tableName:'users',
+                paranoid:true,
+                charset:'utf8mb4',
+                collate:'utf8mb4_general_ci',
             }
         );
-    }catch(err){
-        console.error(err);
-        next(err);
-    }  
-});
-
-
-router.get('/join',  isNotLoggedIn, (req, res, next)=>{
-    res.render('join', { title: '회원가입 - Nodegram' });
-});
-
-
-router.get('/profile',  isLoggedIn, (req, res) => {
-    res.render('profile', { 
-        title: '내 정보 - Nodegram',
-        user:req.user, 
-        followerCount : req.user ? req.user.Followers.length : 0,   // 팔로워 인원수
-        followingCount : req.user ? req.user.Followings.length : 0,  // 팔로잉 인원수
-        followerIdList : req.user ? req.user.Followings.map(f => f.id) : [] ,
-    });
-});
-
-
-
-
-router.get('/hashtag',  isLoggedIn, async (req, res, next) => {
-    const query = req.query.hashtag;
-    if (!query) {
-        return res.redirect('/');  // 도착한 검색어가 없으면 메인으로 돌아갑니다
     }
-    try {
-        const hashtag = await Hashtag.findOne({ where: { title: query } });  // 해시태그 단어 검색
-        let posts = [];
-        if ( hashtag ) {
-          posts = await hashtag.getPosts({ include: [{ model: User }] });  
-          // 해당 해시태그로 외래키관계로 연결된 게시물 검색
-        }
-        return res.render('main', {
-            title: `${query} | NodeGram`,
-            posts,
-            user:req.user, 
-            followerCount : req.user ? req.user.Followers.length : 0,   
-            followingCount : req.user ? req.user.Followings.length : 0, 
-            followerIdList : req.user ? req.user.Followings.map(f => f.id) : [] ,
-        });
-    } catch (error) {
-        console.error(error);
-        return next(error);
+    static associate(db){
+        // hasMany 와 belongsTo 사이에  tartgetKey, sourceKey, foreignKey 들을 지정하지 않으면 hasMany의 주인공테이블(User)의 기본키가  belongsTo의 주인공테이블(Post)의 외래키로 삽입니다. 이때 삽입되는 필드명은 user테이블의 id 라는뜻으로 Userid 가 됩니다.
+        db.User.hasMany( db.Post );
+        
+        db.User.belongsToMany(db.User, { foreignKey:'followingId', as:'Followers', through:'Follow' });
+        db.User.belongsToMany(db.User, { foreignKey:'followerId', as:'Followings', through:'Follow' });
+        // 테이블이름 : Follow
+        // 필드명 : followingId, followerId
+        // User 테이블로 부터 Follow 테이블에 접근할때는 Followers 와 Followings 로 접근합니다.
     }
-});
-
-
-module.exports = router;
+};

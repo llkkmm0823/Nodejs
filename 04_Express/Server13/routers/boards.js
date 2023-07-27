@@ -4,40 +4,30 @@ const Reply = require('../models/Reply');  // Reply 모델 추가
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
-//------------------------------------------------------------------
-const {inLogginedIn, isNotLoggedIn, isLoggedIn} = require('./middleware');
-
+//-----------------------------------------------------------------------
+const { isLoggedIn, isNotLoggedIn } = require('./middleware');
 const paging = {
-    page:1,
-    totalCount : 0,
-    beginPage : 0,
-    endPage : 0,
-    displayRow : 10,
-    displayPage : 10,
-    prev : false ,
-    next: false , 
-    startNum : 0,
-    endNum : 0
-//     pagingCal :function(){
-//         this.endPage = (Math.ceil(this.page / this.disPlayPage)) * this.disPlayPage;
-//         this.beginPage = this.endPage - (this.disPlayPage - 1);
-//         let totalPage = Math.ceil(this.totalCount / this.disPlayRow);
-//         if (totalPage < this.endPage) {
-//             this.endPage = totalPage
-//             this.next = false;
-//         } else {
-//             this.next = true;
-//         }
-    
-//         this.prev = (this.beginPage == 1) ? false : true;
-//         this.startNum = (this.page - 1) * this.disPlayRow + 1;
-//         this.endNum = this.page * this.disPlayRow;
-
-//     }
-
+    page:0,             totalCount:0,   
+    beginPage:0,        endPage:0,      
+    displayRow:10,      displayPage:10,
+    prev:false,         next:false,
+    startNum:0,         endNum:0,
+    pagingCal:function(){
+        this.endPage = Math.ceil(this.page / this.displayPage) * this.displayPage;
+        this.beginPage = this.endPage - (this.displayPage - 1);
+        let totalPage = Math.ceil( this.totalCount / this.displayRow);
+        if(totalPage<this.endPage){   
+            this.endPage = totalPage;  
+            this.next = false;   
+        }else{
+            this.next = true;
+        }
+        this.prev = (this.beginPage==1) ? false : true;  
+        this.startNum = (this.page-1) * this.displayRow+1;  
+        this.endNum = this.page * this.displayRow; 
+    }
 };
-//------------------------------------------------------------------
-
+//------------------------------------------------------------------------
 const router = express.Router();
 
 // 업로드용 폴더의 인식 & 생성
@@ -68,22 +58,20 @@ const uploadObj = multer(
     }
 );
 
-//router.get('/',(req, res,next)=>{로그인 여부를 판단하는 미들웨어}), (req, res,next)=>{원래 있어야 하는 미들 웨어}
-router.get('/', isLoggedIn, (req, res)=>{ //isLoggedIn가 실행되었다가 next()를 만나면(req, res)가 실행될 것
+// router.get('/', (req,res,next)=>{로그인여부를 판단하는 미들웨어}, (req, res, next)=>{원래있어야하는 미들웨어});
+router.get('/', isLoggedIn , (req, res)=>{
     const loginUser = req.session.loginUser;
     res.render('main', {loginUser});
-
-
     /*
     if( req.session.loginUser == undefined ){
-        res.redirect('/'); //로그인이 안되어 있는 상태면 로그인 창으로 이동
+        res.redirect('/');  // 로그인이 안되어 있는 상태면 로그인 창으로 이동
     }else{
         const loginUser = req.session.loginUser;
         res.render('main', {loginUser});
-    }
-    */
+    }*/
 });
-/* 페이징이 없을 때
+
+/* 페이징이 없을때
 router.get('/boardList', async (req, res, next)=>{
     try{
         const boardList = await Board.findAll(
@@ -96,55 +84,53 @@ router.get('/boardList', async (req, res, next)=>{
     }
 });
 */
+// 페이징 적용
+router.get('/boardList/:page', async (req, res, next)=>{
 
-//페이징 적용
-router.get('/boardList/:page', async (req, res, next) => {
-    
     console.log("page : ", req.params.page);
-    if (req.params.page == undefined) {
+    // 전달된 페이지가 있다면 현재 페이지로, 그렇지 않다면 현재 페이지 1
+    if( req.params.page == undefined ){
         paging.page = 1;
-    } else {
+    }else{
         paging.page = req.params.page;
     }
 
-    // 게시물 갯수 조회
+    // 게시물 갯수조회
     let count = 0;
-    try {
-        const result = await Board.findAll({
-        })
+    try{
+        const result = await Board.findAll({});
         count = result.length;
-    } catch (err) {
+    }catch(err){
         console.error(err);
+        next(err);
     }
     paging.totalCount = count;
-    //paging.pagingCal();
-
-    // paging 함수
-    paging.endPage = (Math.ceil(paging.page / paging.disPlayPage)) * paging.disPlayPage;
-    paging.beginPage = paging.endPage - (paging.disPlayPage - 1)
-    let totalPage = Math.ceil(paging.totalCount / paging.disPlayRow)
-    if (totalPage < paging.endPage) {
-        paging.endPage = totalPage
-        paging.next = false;
-    } else {
+    // paging.pagingCal();
+    // paging 함수가 하던 일들----------------------------------
+    paging.endPage = Math.ceil(paging.page / paging.displayPage) * paging.displayPage;
+    paging.beginPage = paging.endPage - (paging.displayPage - 1);
+  	let totalPage = Math.ceil( paging.totalCount / paging.displayRow);
+    if(totalPage<paging.endPage){   
+        paging.endPage = totalPage;  
+        paging.next = false;   
+    }else{
         paging.next = true;
     }
-
-    paging.prev = (paging.beginPage == 1) ? false : true;
-    paging.startNum = (paging.page - 1) * paging.disPlayRow + 1;
-    paging.endNum = paging.page * paging.disPlayRow;
-
-    console.log(paging.beginPage, paging.endPage, paging.prev, paging.next, paging.startNum, paging.endNum);
-
-    try {
-        const boardList = await Board.findAll({
-
-            offset: paging.startNum, // 조회하고자하는 게시물의 시작 위치
-            limit: paging.endNum - paging.startNum, // 조회할 레코드의 갯수
-            order: [['id', 'desc']] // 게시물 번호로 내림차순 정렬
-        });
-        res.json({boardList, paging});
-    } catch (err) {
+    paging.prev = (paging.beginPage==1) ? false : true;  
+    paging.startNum = (paging.page-1) * paging.displayRow+1;  
+    paging.endNum = paging.page * paging.displayRow;  
+    // -------------------------------------------------------------------
+    console.log(paging.beginPage, paging.endPage , paging.startNum , paging.endNum , paging.page);
+    try{
+        const boardList = await Board.findAll(
+            {
+                offset:paging.startNum,  // 조회하고자하는 게시물의 시작 레코드 위치
+                limit: paging.endNum - paging.startNum, // 조회할 레코드의 갯수 
+                order:[['id', 'DESC']], // 게시물 번호로 내림차순 정렬
+            }  
+        );
+        res.json( { boardList, paging } );
+    }catch(err){
         console.error(err);
         next(err);
     }
