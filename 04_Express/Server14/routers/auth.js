@@ -79,4 +79,10 @@ router.post('/login', (req, res, next)=>{
     )(req, res, next); // 미들웨어 내의 미들웨어에는 뒤에(req, res, next)를 붙입니다.
 });
 
+router.get('/logout',(req, res) => {
+    req.logout();   // 세션 쿠키 삭제
+    req.session.destroy();
+    res.redirect('/'); 
+});
+
 module.exports = router;

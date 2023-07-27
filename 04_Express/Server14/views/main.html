@@ -16,8 +16,16 @@
     </div>
 {% endblock %}
 
+
 {% block script %}
-    <script type="text/javascript">
-            
-    </script>
+<script type = "text/javascript">
+    window.onLoad=()=>{
+        //localhost:3000/?loginError=비번이 일치하지 않습니다
+        //현재 페이지로 이동하는 url에서 loginError파라미터가 있는지 확인 후 경고창 실행
+        if(new URL(location.href).searchParams.get('loginError')){
+            alert('{{loginError}}');
+            location.href='/';
+        }
+    };
+</script>
 {% endblock %}
