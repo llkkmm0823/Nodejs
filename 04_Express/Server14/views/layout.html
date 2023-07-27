@@ -11,20 +11,33 @@
     <div class="container">
         <div class="profile-wrap">
             <div class="profile">
-                <!-- 로그인 후에 표시되는 사용자정보 - 로그인후에 노출 -->
-                <form id="login-form" action="/auth/login" method="post">
-                    <div class="input-group">
-                        <label id="email">이메일</label>
-                        <input type="text" id="email" name="email" >
+                {% if user %}
+                    <div class="user-name">{{'안녕하세요 '+user.nick+'님'}}</div>
+                    <div class="half"><div>팔로워</div>
+                        <div class="count follower-count">0</div> 
                     </div>
-                    <div class="input-group">
-                        <label for="password">비밀번호</label>
-                        <input id="password" type="password" name="password" >
+                    <div class="half"><div>필로잉</div>
+                        <div class="count following-count">0</div> 
                     </div>
-                    <a id="join" href="/join" class="btn">회원가입</a>
-                    <button id="login" type="submit" class="btn">로그인</button>
-                    <a id="kakao" href="/auth/kakao" class="btn">카카오톡</a>
-                </form>
+                    <input type="hidden" id="my-id" value="{{user.id}}">
+                    <a id="my-profile" href="/profile" class="btn">내 프로필</a>
+                    <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
+                {% else %}
+                    <!-- 로그인 후에 표시되는 사용자정보 - 로그인후에 노출 -->
+                    <form id="login-form" action="/auth/login" method="post">
+                        <div class="input-group">
+                            <label id="email">이메일</label>
+                            <input type="text" id="email" name="email" >
+                        </div>
+                        <div class="input-group">
+                            <label for="password">비밀번호</label>
+                            <input id="password" type="password" name="password" >
+                        </div>
+                        <a id="join" href="/join" class="btn">회원가입</a>
+                        <button id="login" type="submit" class="btn">로그인</button>
+                        <a id="kakao" href="/auth/kakao" class="btn">카카오톡</a>
+                    </form>
+                {% endif %}
             </div>
         </div>
         {% block content %}

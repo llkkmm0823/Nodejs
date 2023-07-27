@@ -31,3 +31,7 @@ input[type='text'] , input[type='email'] , input[type='nick'], input[type='passw
 #hashtag-form { text-align: right; width:96%;}
 
 #join-form{background-color:  lightcoral; border-radius: 4px; padding:10px;}
+
+.followings .followers { background: lightcoral; }
+.user-name { font-weight: bold; font-size: 18px; }
+.count { font-weight: bold; color: rgb(247, 9, 57); font-size: 18px; }
