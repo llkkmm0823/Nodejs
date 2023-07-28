@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/main.css">
+    <script src="http://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body onload="log();">
+    <div class="container">
+        <div class="profile-wrap">
+            <div class="profile">
+                {% if user %}
+                    <div class="user-name">{{'안녕하세요 ' + user.nickname + '님'}}</div>
+                    <input type="hidden" id="my-id" value="{{user.id}}"/>
+                    <a id="my-profile" href="/profile" class="btn">내 프로필</a>
+                    <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
+                {% else %}
+                    <!-- 로그인 후에 표시되는 사용자정보 - 로그인 후에 노출 -->
+                    <form id="login-form" action="/auth/login" method="post">
+                        <div class="input-group">
+                            <label id="email">이메일</label>
+                            <input type="text" id="email" name="email">
+                        </div>
+                        <div class="input-group">
+                            <label for="password">비밀번호</label>
+                            <input id="password" type="password" name="password">
+                        </div>
+                        <a id="join" href="/join" class="btn">회원가입</a>
+                        <button id="login" type="submit" class="btn">로그인</button>
+                        <a id="kakao" href="/auth/kakao" class="btn">카카오톡</a>
+                    </form>
+                {% endif %}
+                <!-- nunjucks 사용 ( 바로 위에 쓴 한줄 코드를 nunjucks에서 가져온 것으로 이용한 것입니다. ) -->
+            </div>
+        </div>
+        {% block content %}
+        {% endblock %}
+    </div>
+    {% block script %}
+    {% endblock %}
+</body>
+</html>
+<!--
+    layout.html 은 모든페이지에 적용될 양식 페이지입니다.
+    각 페이지의 내용을 담고 있는 각 html 파일들은 block content 와 block script 에 들어갈 내용만 쓰고, layout.html 파일을 extend 합니다.
+-->

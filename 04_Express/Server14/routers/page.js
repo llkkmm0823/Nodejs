@@ -57,7 +57,7 @@ router.get('/hashtag',  isLoggedIn, async (req, res, next) => {
     if (!query) {
         return res.redirect('/');  // 도착한 검색어가 없으면 메인으로 돌아갑니다
     }
-    try {
+    try { 
         const hashtag = await Hashtag.findOne({ where: { title: query } });  // 해시태그 단어 검색
         let posts = [];
         if ( hashtag ) {
@@ -77,6 +77,5 @@ router.get('/hashtag',  isLoggedIn, async (req, res, next) => {
         return next(error);
     }
 });
-
 
 module.exports = router;

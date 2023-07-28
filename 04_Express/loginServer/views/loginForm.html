@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+<!-- 
+    양식 파일(layout.html)이 현재 페이지로와서 위치하며, 아래 기술되는 block content 와 block script 가 layout.html 의 내용 중 해당 위치에 삽입됩니다. 
+    삽입할때 'layout.html'이 아닌 layout.html 즉, 쉼표를 빼면 template names must be a string : undefined 라는 에러 메세지가 뜹니다.
+-->
+
+
+<script type="text/javascript">
+    function log(){
+        // localhost:3000/?loginError=비번이 일치하지 않습니다
+        // 현재 페이지로 이동하는 url 에서 loginError 파라미터가 있는 지 확인 후 경고창 실행
+        let k = new URL(location.href).searchParams.get('loginError');
+        if ( k ) {
+            alert(k);
+            location.href='/';
+        }
+    };
+</script>
+
+{% endblock %}
