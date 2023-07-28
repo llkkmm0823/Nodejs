@@ -3,9 +3,9 @@ const router = express.Router();
 
 router.get('/', (req, res)=>{ 
     if(req.session.loginUser != undefined){
-        res.redirect('/loginForm/');
+        res.redirect('/main/');
     }else{
-        res.render('layout', {});
+        res.render('loginForm', {});
     }
 });
 

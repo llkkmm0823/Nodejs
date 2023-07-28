@@ -14,9 +14,9 @@ module.exports = () => {
         new LocalStrategy(
             {
                 usernameField : 'email',    // req.body.email 의 필드 이름과 일치하게 작성, 'email'
-                passwordField : 'password', // req.body.password 의 필드 이름과 일치하게 작성
+                passwordField : 'pwd', // req.body.password 의 필드 이름과 일치하게 작성
             },
-            async (email, password, done) => {
+            async (email, pwd, done) => {
                 // 로그인을 위해서 입력한 이메일을 검색하고 있으면 비번까지 비교, 없으면 '없는 아이디입니다'로 처리
                 try{
                     const exUser = await User.findOne(
@@ -27,11 +27,12 @@ module.exports = () => {
                     if( exUser ){   // 회원이 존재한다면
 
                         // 입력받은 password 를 bcrypt 를 이용해서 비교합니다.
-                        const result = await bcrypt.compare(password, exUser.password);
+                        const result = await bcrypt.compare(pwd, exUser.password);
                         
                         if ( result ){  // password도 일치한다면
                             done(null, exUser);   // 세번째 null은 안써도된다. javascript에 보내진 변수가 없으면 무시한다. 즉 마지막 변수 info는 무시됨. done(null, exUser, null);
                         } else {
+                            console.log(pwd);
                             done(null, false, { message : 'password가 일치하지 않습니다' });
                         }
                     

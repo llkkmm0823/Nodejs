@@ -53,7 +53,6 @@ const authRouter = require('./routers/auth.js');
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 
-
 app.use((req, res, next)=>{
     const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
     error.status = 404;
@@ -67,6 +66,9 @@ app.use((err, req, res, next)=>{
     res.end('error');
     //res.render('error');
 }); //그 외 에러들
+
+
+
 app.listen(app.get('port'), ()=>{ 
     console.log(app.get('port'), '포트에서 대기 중'); 
 });
