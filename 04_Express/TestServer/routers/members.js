@@ -1,19 +1,17 @@
 const express = require('express');
-const TextUser = require('../models/TextUser');
+const Member = require('../models/TestUser');
 const router = express.Router();
 
-const { isNotLoggedIn } = require('./middleware');
-
-router.post('/login',  isNotLoggedIn, async (req, res, next)=>{
+router.post('/login',  async (req, res, next)=>{
     try{
-        const loginUser = await TextUser.findOne(
+        const loginUser = await Member.findOne(
             {
                 where:{userid:req.body.userid},
             }
         );
         if( loginUser != null ){
             req.session.loginUser = loginUser;
-        } 
+        }
         res.json(loginUser);
     }catch(err){
         console.error(err);

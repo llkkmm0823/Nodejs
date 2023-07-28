@@ -9,9 +9,9 @@
 <body>
     <div id="wrap">
         <h2>{{loginUser.userid}}({{loginUser.name}}) 님 어서오세요 &nbsp; </h2>
-        <input type="button" value="회원정보수정" onClick="location.href='#'">
-        <input type="button" value="로그아웃" onClick="location.href='#'">
-        <input type="button" value="글쓰기" onClick="location.href='#'"><br><br>
+        <input type="button" value="회원정보수정" onClick="location.href='/members/updateForm/{{loginUser.userid}}'">
+        <input type="button" value="로그아웃" onClick="location.href='/members/logout/'">
+        <input type="button" value="글쓰기" onClick="location.href='/boards/writeForm'"><br><br>
     </div>
 </body>
 </html>
