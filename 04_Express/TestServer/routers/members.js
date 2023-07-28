@@ -1,8 +1,6 @@
 const express = require('express');
 const TextUser = require('../models/TextUser');
 const router = express.Router();
-const user = new TextUser();
-
 
 const { isNotLoggedIn } = require('./middleware');
 
