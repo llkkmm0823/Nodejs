@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/main.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
-<body onload=log();>
+<body onload="log();">
     <div class="container">
         <div class="profile-wrap">
             <div class="profile">
@@ -43,19 +43,10 @@
         {% block content %}
         {% endblock %}
 
-        
+
     </div>
     {% block script %}
-    <script type = "text/javascript">
-        window.onLoad=()=>{
-            //localhost:3000/?loginError=비번이 일치하지 않습니다
-            //현재 페이지로 이동하는 url에서 loginError파라미터가 있는지 확인 후 경고창 실행
-            if(new URL(location.href).searchParams.get('loginError')){
-                alert('{{loginError}}');
-                location.href='/';
-            }
-        };
-    </script>
+
     {% endblock %}
 </body>
 </html>
@@ -63,4 +54,3 @@
     layout.html 은 모든페이지에 적용될  양식 페이지입니다.  
     각페이지의 내용을 담고 있는 각 html 파일들은  block content 와 block script 에 들어갈 내용만 쓰고,   layout.html 파일을 extend 합니다
 -->
-

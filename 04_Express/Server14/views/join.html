@@ -17,12 +17,14 @@
         </form>
     </div>
 {% endblock %}
+
 {% block script %}
     <script type="text/javascript">
         function log(){
-            //폼실행 후 되돌아와서 페이지 전환을 하고자 하는 주소에 error라는 파라미터가 있다면
+            // localhost:3000/join.html?error=exits
+            // 폼실행후 되돌아와서 페이지 전환을 하고자하는 주소에  error 라는 파라미터가 있다면
             let k = new URL(location.href).searchParams.get('joinError');
-                if(k){
+                if(k) { 
                     alert(k);
                     location.href='/join';
                 }

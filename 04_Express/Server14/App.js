@@ -44,12 +44,13 @@ sequelize.sync({force:false})
 const passportConfig = require('./passport');
 passportConfig();
 
-//passport 모듈의 생성은 세션과 연관이 있으므로 그 뒤에 미들웨어 설정
+// passport 모듈의 사용은 세션과 연관이 있으므로 그뒤에 미들웨어를 설정합니다.
 app.use(passport.initialize());
 app.use(passport.session());
 
+
 const pageRouter = require('./routers/page');
-const postRouter = require('./routers/post.js');
+const postRouter = require('./routers/post');
 const authRouter = require('./routers/auth');
 const userRouter = require('./routers/user');
 app.use('/', pageRouter);

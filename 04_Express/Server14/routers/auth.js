@@ -19,7 +19,7 @@ router.post('/join', async (req, res, next)=>{
             }
         ); // 전송된 이메일이 이미 회원가입된 이메일인지 확인을 위해 검색
         if( exUser ){
-            return res.redirect('/join');
+            return res.redirect('/join?joinError=이미 존재하는 이메일입니다');
         }  // 이메일이 이미 존재한다면 회원가입 폼으로 되돌아 갑니다.
         
         // password 를 암호화합니다
@@ -79,28 +79,29 @@ router.post('/login', (req, res, next)=>{
     )(req, res, next); // 미들웨어 내의 미들웨어에는 뒤에(req, res, next)를 붙입니다.
 });
 
-router.get('/logout',(req, res) => {
-    req.logout();   // 세션 쿠키 삭제
+
+
+
+router.get('/logout',   (req, res) => {
+    //req.logout();   // 세션 쿠키 삭제
     req.session.destroy();
     res.redirect('/'); 
 });
 
 
-router.get('/kakao',(req, res) => {
-// 스트레지를 통해 카카오에 한번 갔다가  콜백받아서 돌아오고
-});
+router.get('/kakao', passport.authenticate('kakao') );
 
-router.get('/kakao/callback', 
-passport.authenticate(
-        'kakao',
-    {   // 그다음은 요부분 실행
-        failureRedirect: '/',
-    }
-    ), 
+
+router.get( '/kakao/callback', 
+    passport.authenticate(
+        'kakao', 
+        {
+            failureRedirect: '/',
+        }
+    ),  // 모든 로그인 절차를 마치고 다음 미들웨어 실행해서 첫페이지로 이동
     (req, res) => {
         res.redirect('/');
     }
 );
-
 
 module.exports = router;

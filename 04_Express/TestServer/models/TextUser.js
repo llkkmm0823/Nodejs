@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 
+
 class TextUser extends Sequelize.Model {
   static init(sequelize) { 
     return super.init(
