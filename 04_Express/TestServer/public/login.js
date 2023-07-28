@@ -13,7 +13,7 @@ document.getElementById("login-form").addEventListener('submit', async (e)=>{
         }else if( member.pwd != pwd ){
             msg.innerHTML= '비밀번호가 맞지 않습니다';
         }else if( member.pwd == pwd ){
-            location.href='./main';
+            window.location.href='/main';
         }else{
             msg.innerHTML = '알 수 없는 이유로 로그인이 안돼요';
         }

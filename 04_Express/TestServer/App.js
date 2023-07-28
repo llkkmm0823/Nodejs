@@ -25,8 +25,11 @@ app.use(express.urlencoded({ extended: false }));  // req.body 에 관한 사용
 // app.get('/', (req, res)=>{ res.send('<h1>Node.js 에서 제작한 게시판</h1>');});
 const indexRouter = require('./routers');
 const membersRouter = require('./routers/members');
+const mainRouter = require('./routers/main');
 app.use('/', indexRouter);
 app.use('/members', membersRouter);
+app.use('/main', mainRouter);
+
 
 // 데이터베이스에 대한 설정
 const { sequelize } = require('./models');
