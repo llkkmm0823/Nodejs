@@ -16,7 +16,19 @@ module.exports = ()=>{
     passport.deserializeUser((id, done)=>{
         User.findOne({
             where:{ id },
-        })
+            include: [
+                {
+                    model: User,
+                    attributes: ['id', 'nick'],
+                    as: 'Followers',
+                }, {
+                    model: User,
+                    attributes: ['id', 'nick'],
+                    as: 'Followings',
+                }
+            ],
+
+        })  // id로 조회하고  조회되어 저장되어 되돌아온 user 를 req.user 에 저장
         .then((user) => done(null, user))
         .catch((err) => done(err));
         // 세션에 저장된 아이디와 쿠키로  user 를 복구 req.user로 사용자 정보 사용  

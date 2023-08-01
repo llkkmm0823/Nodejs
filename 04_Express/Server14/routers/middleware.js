@@ -1,20 +1,19 @@
 // middleware.js
 
-exports.isLoggedIn = (req,res,next)=>{
+// 각 라우터들에 중간에 들어갈 미들웨어가 exports 합니다
+exports.isLoggedIn=(req, res, next)=>{
+    //if( req.session.loginUser != undefined )
+    // req.isAuthenticated() 현재 누군가 로그인 되어 있으면 true , 그렇지 않으면 false 를 리턴해주는 함수
     if( req.isAuthenticated() ){
-        next();     // 참이면 다음 명령(또는 라우터)으로  이동
-    } else {
-        res.status(403).send('로그인이 필요합니다');
-        // 거짓이면 에러내용과 함께 호출된곳으로 이동
+        next();
+    }else{
+        res.send('<h3>로그인이 필요합니다&nbsp;&nbsp;<a href="/">이동</a></h3>');
     }
 };
-
-
 exports.isNotLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
       next();
     } else {
-      const message = encodeURIComponent('로그인한 상태입니다.');
-      res.redirect(`/?error=${message}`);
+        res.send('<h3>로그아웃후에 사용하세요&nbsp;&nbsp;<a href="/">이동</a></h3>')
     }
 };

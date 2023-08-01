@@ -14,10 +14,10 @@
                 {% if user %}
                     <div class="user-name">{{'안녕하세요 '+user.nick+'님'}}</div>
                     <div class="half"><div>팔로워</div>
-                        <div class="count follower-count">0</div> 
+                        <div class="count follower-count">{{followerCount}}</div> 
                     </div>
                     <div class="half"><div>필로잉</div>
-                        <div class="count following-count">0</div> 
+                        <div class="count following-count">{{followingCount}}</div> 
                     </div>
                     <input type="hidden" id="my-id" value="{{user.id}}">
                     <a id="my-profile" href="/profile" class="btn">내 프로필</a>

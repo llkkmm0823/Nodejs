@@ -3,7 +3,8 @@
 
 {% block content %}
     <div class="timeline">
-        {% if user %}
+        <!-- {user:req.user} -->
+        {% if user %}   
             <div id="write-form" >
                 <form id="post-form" action="/post" method="post" enctype="multipart/form-data">
                     <div class="input-group">
@@ -27,9 +28,35 @@
         <div class="twits">
             <form id="hashtag-form" action="/hashtag">
                 <input type="text" name="hashtag" placeholder="태그 검색">
-                <button class="btn">검색</button>
+                <button type="submit" class="btn">검색</button>
             </form>
             <br/>
+
+            {% for post in posts %}
+
+                <div class="twit">
+                    <!-- 아이디(게시물 번호) - 닉네임(작성자 닉네임) -->
+                    <div class="twit-author" style="font-weight:bold; font-family:Verdana;">
+                        <input type="hidden" value="{{post.id}}" class="twit-id">
+                        <input type="hidden" value="{{post.UserId}}" class="twit-user-id">
+                        {{post.id}} &nbsp;-&nbsp; {{post.User.nick}}  
+                        <!-- 현재 로그인 사용자가, 게시물 작성유저를 팔로우 버튼 -->
+                        {% if not followerIdList.includes(post.User.id) and post.User.id !== user.id %}
+                            <button class="twit-follow">팔로우</button><br><br>
+                        {% endif %}
+
+                    </div>
+                    <!-- 이미지 -->
+                    {% if post.img %}
+                        <!--현재 게시물의 이미지가 있다면 이미지태그 표시-->
+                        <div class="twit-img"><img src="{{post.img}}" width="500"></div><br>
+                    {% endif %}
+                    <div class="twit-content" style="font-weight:bold; font-family:Verdana;">
+                        <pre>{{post.content}}</pre>
+                    </div>
+                </div>
+
+            {% endfor %}
         </div>
         <!-- 각 피드들이 나열 - 피드가 하나라도 작성되면 노출 -->
     </div>
@@ -58,6 +85,31 @@
             }catch(err){
                 console.error(err);
             }
+        });
+
+        //document.querySelectorAll('.twit-follow').forEach((tag)=>{});
+        // 클래스 twit-follow 으로 검색된 테그(button)들로 반복실행합니다.
+        // 그 실행중에 twit-follow 클래스로된 하나하나의 태그들은 tag 변수에 담겨서 반복실행됩니다.
+        document.querySelectorAll('.twit-follow').forEach((tag)=>{
+            tag.addEventListener('click', (e)=>{
+                const myid = document.querySelector('#my-id'); // myid.value : 로그인유저의 아이디
+                if( myid ){  // 현재 로그인이 누군가 되어 있는 상태라면
+                    // 게시물의 작성자의 아이디 추출
+                    const userid = tag.parentNode.querySelector('.twit-user-id').value; 
+                    if( userid !== myid.value ){ // 로그인유저와 작성자가 다른 사람이라면
+                        const answer = confirm('이 피드의 작성자를 팔로우하시겠습니까?');
+                        if( answer ){
+                            axios.post(`/user/follow/${userid}`)
+                            .then(()=>{
+                                location.reload();
+                            })
+                            .catch((err)=>{
+                                console.error(err);
+                            });
+                        }
+                    }
+                }
+            });
         });
     </script>
 {% endblock %}

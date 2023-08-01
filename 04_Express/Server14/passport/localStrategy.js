@@ -13,7 +13,7 @@ module.exports=()=>{
     passport.use(
         new LocalStrategy(
             {
-                usernameField:'email', // req.body.email 의 필드이름과 일치하게 작성, 'email'
+                usernameField:'email', // req.body.email 의 필드이름과 일치하게 작성, 'email'    req.body.email 로 전달된 값을 아래 익명함수 매개변수 email  변수에 전달
                 passwordField:'password', // req.body.password 의 필드이름과 일치하게 작성,
             },async (email, password, done)=>{
                 // 로그인위해서 입력한 이메일을 검색하고 있으면 비번까지 비교, 없으면 '없는 아이디입니다'로 처리 - done(null, false, '없는 아이디입니다');
@@ -22,9 +22,10 @@ module.exports=()=>{
                         {
                             where:{ email }
                         }
-                    );
+                    ); // 이메일로 로그인하려는 사용자 조회
+
                     if( exUser ){ // 회원이 존재한다면 
-                        // 입력받은 password 를  bcrypt 를 이용해서 비교합니다.
+                        // 입력받은 password 를  bcrypt로 암호화해서 조회된 회원의 password와  비교합니다.
                         const result = await bcrypt.compare(password, exUser.password); 
                         if( result ){   // password도 일치한다면
                             done(null, exUser);  // done(null, exUser, null);

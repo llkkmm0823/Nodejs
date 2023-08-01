@@ -1,14 +1,14 @@
 {% extends 'layout.html' %}
-
 {% block content %}
-    <div class="timeline">
-        {{user.email}} &nbsp;-&nbsp;( {{user.nickname}} )
-        <div class="twit-author" style="font-weight:bold; font-family:Verdana; height : 500px;"></div>
+    <div class="profile">
+        {{user.email}} &nbsp;-&nbsp;( {{user.nick}} )
+        <div class="twit-author" style="font-weight:bold; font-family:Verdana; height:500px">
+            
             <div class="followings half">
                 <h2>팔로잉 목록</h2>
                 {% if user.Followings %}
                     {% for following in user.Followings %}
-                        <div>{{following.nickname}}</div>
+                        <div>{{following.nick}}</div>
                     {% endfor %}
                 {% endif %}
             </div>
@@ -16,7 +16,7 @@
                 <h2>팔로워 목록</h2>
                 {% if user.Followers %}
                     {% for follower in user.Followers %}
-                        <div>{{follower.nickname}}</div>
+                        <div>{{follower.nick}}</div>
                     {% endfor %}
                 {% endif %}
             </div>
