@@ -23,6 +23,8 @@ app.use(express.json());  // json 데이터 사용 설정
 app.use(express.urlencoded({ extended: false }));  // req.body 에 관한 사용 설정
 
 // app.get('/', (req, res)=>{ res.send('<h1>Node.js 에서 제작한 게시판</h1>');});
+
+//라우터 지정을 해줘야 쓰지 맨날 이거 빠뜨린다..
 const indexRouter = require('./routers');
 const membersRouter = require('./routers/members');
 const mainRouter = require('./routers/main');
